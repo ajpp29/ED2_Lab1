@@ -8,9 +8,27 @@ namespace ED2_Lab1.Compresion
 {
     public class Huffman
     {
-        List<HuffmanNode> ListaNodos = new List<HuffmanNode>();
+        List<HuffmanNode> ListaHojas = new List<HuffmanNode>();
 
+        public void GenerarArbol(List<HuffmanNode> ListaCaracteres)
+        {
 
+            while (ListaCaracteres.Count > 1)
+            {
+                ListaCaracteres.Sort();
+                HuffmanNode hnDerecho = ListaCaracteres[0];
+                ListaCaracteres.RemoveAt(0);
+                HuffmanNode hnIzquierdo = ListaCaracteres[0];
+                ListaCaracteres.RemoveAt(0);
+
+                HuffmanNode nAux = new HuffmanNode();
+                nAux = nAux.CrearNodoPadre(hnDerecho, hnIzquierdo);
+                nAux.rightTree.parentNode = nAux;
+                nAux.leftTree.parentNode = nAux;
+
+                ListaCaracteres.Add(nAux);
+            }
+        }
 
     }
 }

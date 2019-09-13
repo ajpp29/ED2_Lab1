@@ -15,6 +15,10 @@ namespace ED2_Lab1.Models
         public HuffmanNode rightTree; 
         public bool isLeaf;           
 
+        public HuffmanNode()
+        {
+
+        }
 
         public HuffmanNode(string value)   
         {
@@ -36,6 +40,7 @@ namespace ED2_Lab1.Models
         {
             code = "";
             frecuencia = hnDerecho.frecuencia + hnIzquierdo.frecuencia;
+            isLeaf = false;
 
             if (hnDerecho.frecuencia >= hnIzquierdo.frecuencia)
             {
