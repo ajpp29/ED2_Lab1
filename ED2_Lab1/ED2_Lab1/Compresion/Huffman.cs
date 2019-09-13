@@ -9,6 +9,7 @@ namespace ED2_Lab1.Compresion
     public class Huffman
     {
         List<HuffmanNode> ListaHojas = new List<HuffmanNode>();
+        HuffmanNode hnRaiz = new HuffmanNode();
 
         public void GenerarArbol(List<HuffmanNode> ListaCaracteres)
         {
@@ -28,6 +29,26 @@ namespace ED2_Lab1.Compresion
 
                 ListaCaracteres.Add(nAux);
             }
+
+            hnRaiz = AsignarCodigosPrefijo("", ListaCaracteres[0]);
+        }
+
+        private HuffmanNode AsignarCodigosPrefijo(string codigoprefijo, HuffmanNode hnNodoActual)
+        {
+            if (hnNodoActual == null)
+            {
+                return null;
+            }
+            else if (hnNodoActual.leftTree==null && hnNodoActual.rightTree == null)
+            {
+                hnNodoActual.code = codigoprefijo;
+                return hnNodoActual;
+            }
+
+            hnNodoActual.leftTree = AsignarCodigosPrefijo(codigoprefijo + "0", hnNodoActual.leftTree);
+            hnNodoActual.rightTree = AsignarCodigosPrefijo(codigoprefijo + "1", hnNodoActual.rightTree);
+
+            return hnNodoActual;
         }
 
     }

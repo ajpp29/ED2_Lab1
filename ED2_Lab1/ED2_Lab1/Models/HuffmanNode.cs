@@ -17,7 +17,13 @@ namespace ED2_Lab1.Models
 
         public HuffmanNode()
         {
-
+            caracter = default(string);
+            frecuencia = default(int);
+            code = default(string);
+            parentNode = null;
+            leftTree = null;
+            rightTree = null;
+            isLeaf = default(bool);
         }
 
         public HuffmanNode(string value)   
