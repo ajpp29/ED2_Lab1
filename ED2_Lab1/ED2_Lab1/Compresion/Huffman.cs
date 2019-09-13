@@ -31,6 +31,7 @@ namespace ED2_Lab1.Compresion
             }
 
             hnRaiz = AsignarCodigosPrefijo("", ListaCaracteres[0]);
+            GenerarListaNodosHoja(hnRaiz);
         }
 
         private HuffmanNode AsignarCodigosPrefijo(string codigoprefijo, HuffmanNode hnNodoActual)
@@ -49,6 +50,22 @@ namespace ED2_Lab1.Compresion
             hnNodoActual.rightTree = AsignarCodigosPrefijo(codigoprefijo + "1", hnNodoActual.rightTree);
 
             return hnNodoActual;
+        }
+
+        private void GenerarListaNodosHoja(HuffmanNode raiz)
+        {
+            if (raiz == null)
+            {
+                return;
+            }
+            else if (raiz.isLeaf)
+            {
+                ListaHojas.Add(raiz);
+                return;
+            }
+
+            GenerarListaNodosHoja(raiz.leftTree);
+            GenerarListaNodosHoja(raiz.rightTree);
         }
 
     }
