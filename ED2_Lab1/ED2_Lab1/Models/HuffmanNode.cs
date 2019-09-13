@@ -31,5 +31,26 @@ namespace ED2_Lab1.Models
         {
             frecuencia++;
         }
+
+        public HuffmanNode CrearNodoPadre(HuffmanNode hnDerecho,HuffmanNode hnIzquierdo)
+        {
+            code = "";
+            frecuencia = hnDerecho.frecuencia + hnIzquierdo.frecuencia;
+
+            if (hnDerecho.frecuencia >= hnIzquierdo.frecuencia)
+            {
+                rightTree = hnDerecho;
+                leftTree = hnIzquierdo;
+                caracter = hnDerecho.caracter + hnIzquierdo.caracter;
+            }
+            else if (hnDerecho.frecuencia < hnIzquierdo.frecuencia)
+            {
+                rightTree = hnIzquierdo;
+                leftTree = hnDerecho;
+                caracter = hnIzquierdo.caracter + hnDerecho.caracter;
+            }
+
+            return this;
+        }
     }
 }
