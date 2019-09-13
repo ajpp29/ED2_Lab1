@@ -5,17 +5,24 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ED2_Lab1.Models;
+using ED2_Lab1.DBContext;
+using ED2_Lab1.Compresion;
 
 namespace ED2_Lab1.Controllers
 {
     public class HuffmanController : Controller
     {
+        public DefaultConnection db = DefaultConnection.getInstance;
         // GET: Huffman
         public ActionResult Index()
         {
             List<HuffmanNode> ListaNodos = new List<HuffmanNode>();
             ListaNodos = ObtenerLista();
-            return View(ListaNodos);
+
+            Huffman compresionHuffman = new Huffman();
+            //compresionHuffman.GenerarArbol(ListaNodos);
+
+            return View(db.historialCompresiones.ToList());
         }
         public List<HuffmanNode> ObtenerLista()
         {
@@ -39,6 +46,31 @@ namespace ED2_Lab1.Controllers
             {
                 return null;
             }
+        }
+
+        [HttpGet]
+        public ActionResult UploadFile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadFile(HttpPostedFileBase File)
+        {
+            string filePath = string.Empty;
+            if (File != null)
+            {
+                string path = Server.MapPath("~/UploadedFiles/");
+                filePath = path + Path.GetFileName(File.FileName);
+                string extension = Path.GetExtension(File.FileName);
+                File.SaveAs(filePath);
+                ViewBag.Message = "Archivo Cargado";
+
+                return RedirectToAction("Index");
+            }
+
+            return View();
         }
     }
 

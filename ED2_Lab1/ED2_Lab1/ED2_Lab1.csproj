@@ -127,6 +127,7 @@
     <Compile Include="Compresion\LogFile.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuffmanController.cs" />
+    <Compile Include="DBContext\DefaultConnection.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -171,9 +172,11 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Huffman\Index.cshtml" />
+    <Content Include="Views\Huffman\UploadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
