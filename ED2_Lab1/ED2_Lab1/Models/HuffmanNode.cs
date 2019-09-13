@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ED2_Lab1.Models
 {
-    public class HuffmanNode
+    public class HuffmanNode:IComparable<HuffmanNode>
     {
         public string caracter;   
         public int frecuencia;         
@@ -62,6 +62,11 @@ namespace ED2_Lab1.Models
             }
 
             return this;
+        }
+
+        public int CompareTo(HuffmanNode other)
+        {
+            return this.frecuencia.CompareTo(other.frecuencia);
         }
     }
 }
