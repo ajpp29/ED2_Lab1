@@ -8,7 +8,7 @@ namespace ED2_Lab1.Compresion
 {
     public class Huffman
     {
-        List<HuffmanNode> ListaHojas = new List<HuffmanNode>();
+        public List<HuffmanNode> ListaHojas = new List<HuffmanNode>();
         HuffmanNode hnRaiz = new HuffmanNode();
 
         public void GenerarArbol(List<HuffmanNode> ListaCaracteres)

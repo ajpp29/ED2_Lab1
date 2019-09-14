@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ED2_Lab1.Models;
 using ED2_Lab1.DBContext;
 using ED2_Lab1.Compresion;
+using System.IO;
 
 namespace ED2_Lab1.Controllers
 {
@@ -48,6 +49,39 @@ namespace ED2_Lab1.Controllers
             }
         }
 
+        public List<HuffmanNode> ObtenerLista(string filepath)
+        {
+            List<HuffmanNode> nodeList = new List<HuffmanNode>();
+            try
+            {
+
+                FileStream stream = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+                for (int i = 0; i < stream.Length; i++)
+                {
+                    string read = Convert.ToChar(stream.ReadByte()).ToString();
+                    if (nodeList.Exists(x => x.caracter == read))
+                        nodeList[nodeList.FindIndex(y => y.caracter == read)].Frecuencia();
+                    else
+                        nodeList.Add(new HuffmanNode(read));
+                }
+                nodeList.Sort();
+
+                for (int i=0; i < nodeList.Count; i++)
+                {
+                    decimal frecuenci = Convert.ToDecimal(nodeList[i].frecuencia);
+                    decimal totalCaracteres = Convert.ToDecimal(stream.Length);
+                    decimal division = frecuenci / totalCaracteres;
+                    decimal dAux = Convert.ToDecimal(division);
+                    nodeList[i].probability = dAux;
+                }
+                return nodeList;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         [HttpGet]
         public ActionResult UploadFile()
         {
@@ -66,6 +100,18 @@ namespace ED2_Lab1.Controllers
                 string extension = Path.GetExtension(File.FileName);
                 File.SaveAs(filePath);
                 ViewBag.Message = "Archivo Cargado";
+
+                FileInfo fileInfo = new FileInfo(filePath);
+
+                string nombre_original = fileInfo.Name;
+                long tamanio_original = fileInfo.Length;
+
+                Huffman compresionHuffman = new Huffman();
+                List<HuffmanNode> ListaNodos = new List<HuffmanNode>();
+                ListaNodos = ObtenerLista(filePath);
+
+                compresionHuffman.GenerarArbol(ListaNodos);
+                List<HuffmanNode> NodosHojas = compresionHuffman.ListaHojas;
 
                 return RedirectToAction("Index");
             }

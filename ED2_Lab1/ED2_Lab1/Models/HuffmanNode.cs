@@ -8,7 +8,8 @@ namespace ED2_Lab1.Models
     public class HuffmanNode:IComparable<HuffmanNode>
     {
         public string caracter;   
-        public int frecuencia;         
+        public int frecuencia;
+        public decimal probability;
         public string code;           
         public HuffmanNode parentNode; 
         public HuffmanNode leftTree;   
@@ -19,6 +20,7 @@ namespace ED2_Lab1.Models
         {
             caracter = default(string);
             frecuencia = default(int);
+            probability = default(decimal);
             code = default(string);
             parentNode = null;
             leftTree = null;
@@ -29,8 +31,8 @@ namespace ED2_Lab1.Models
         public HuffmanNode(string value)   
         {
             caracter = value;     
-            frecuencia = 1;      
-
+            frecuencia = 1;
+            probability = default(decimal);
             rightTree = leftTree = parentNode = null;      
 
             code = "";         
@@ -46,6 +48,7 @@ namespace ED2_Lab1.Models
         {
             code = "";
             frecuencia = hnDerecho.frecuencia + hnIzquierdo.frecuencia;
+            probability = hnDerecho.probability + hnIzquierdo.probability;
             isLeaf = false;
 
             if (hnDerecho.frecuencia >= hnIzquierdo.frecuencia)
@@ -66,7 +69,7 @@ namespace ED2_Lab1.Models
 
         public int CompareTo(HuffmanNode other)
         {
-            return this.frecuencia.CompareTo(other.frecuencia);
+            return this.probability.CompareTo(other.probability);
         }
     }
 }
