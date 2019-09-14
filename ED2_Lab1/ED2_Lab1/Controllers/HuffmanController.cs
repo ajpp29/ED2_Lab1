@@ -112,11 +112,36 @@ namespace ED2_Lab1.Controllers
 
                 compresionHuffman.GenerarArbol(ListaNodos);
                 List<HuffmanNode> NodosHojas = compresionHuffman.ListaHojas;
-
+                
                 return RedirectToAction("Index");
             }
 
             return View();
+        }
+
+        public void Escribir_Archivo_Compreso(string filePath)
+        {
+            const int bufferLength = 100;
+
+            var buffer = new byte[bufferLength];
+            using (var file = new FileStream(filePath, FileMode.Open))
+            {
+                using (var reader = new BinaryReader(file))
+                {
+                    while (reader.BaseStream.Position != reader.BaseStream.Length)
+                    {
+                        buffer = reader.ReadBytes(bufferLength);
+                        foreach (var item in buffer)
+                        {
+                            //Console.Write((char)item);
+                        }
+
+                        //Console.ReadKey();
+                    }
+
+                }
+
+            }
         }
     }
 
