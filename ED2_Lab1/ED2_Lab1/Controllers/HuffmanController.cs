@@ -8,6 +8,7 @@ using ED2_Lab1.Models;
 using ED2_Lab1.DBContext;
 using ED2_Lab1.Compresion;
 using System.IO;
+using System.Text;
 
 namespace ED2_Lab1.Controllers
 {
@@ -112,6 +113,8 @@ namespace ED2_Lab1.Controllers
 
                 compresionHuffman.GenerarArbol(ListaNodos);
                 List<HuffmanNode> NodosHojas = compresionHuffman.ListaHojas;
+
+                Escribir_Archivo_Compreso(filePath, NodosHojas);
                 
                 return RedirectToAction("Index");
             }
@@ -119,9 +122,10 @@ namespace ED2_Lab1.Controllers
             return View();
         }
 
-        public void Escribir_Archivo_Compreso(string filePath)
+        public void Escribir_Archivo_Compreso(string filePath, List<HuffmanNode> Hojas)
         {
             const int bufferLength = 100;
+            StringBuilder builder = new StringBuilder();
 
             var buffer = new byte[bufferLength];
             using (var file = new FileStream(filePath, FileMode.Open))
@@ -133,15 +137,30 @@ namespace ED2_Lab1.Controllers
                         buffer = reader.ReadBytes(bufferLength);
                         foreach (var item in buffer)
                         {
-                            //Console.Write((char)item);
+                            builder.Append(CodifoPrefijo(item,Hojas));
                         }
 
-                        //Console.ReadKey();
+                        Console.ReadKey();
                     }
 
                 }
 
             }
+        }
+
+        private string CodifoPrefijo(byte item, List<HuffmanNode> ListHojas )
+        {
+            string codigo = default(string);
+
+            for(int i=0; i < ListHojas.Count; i++)
+            {
+                if (Convert.ToChar(item).ToString() == ListHojas[i].caracter)
+                {
+                    codigo = ListHojas[i].caracter;
+                }
+            }
+
+            return codigo;
         }
     }
 
