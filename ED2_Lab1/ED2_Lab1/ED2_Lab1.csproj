@@ -127,12 +127,14 @@
     <Compile Include="Compresion\LogFile.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HuffmanController.cs" />
+    <Compile Include="Controllers\LZWController.cs" />
     <Compile Include="DBContext\DefaultConnection.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\HuffmanNode.cs" />
+    <Compile Include="Models\LZW.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +179,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\LZW\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
