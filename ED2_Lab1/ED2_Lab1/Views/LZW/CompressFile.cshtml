@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "CompressFile";
+
+}
+<h2>UploadFile</h2>
+@using (Html.BeginForm("CompressFile",
+                        "LZW",
+                        FormMethod.Post,
+                        new { enctype = "multipart/form-data" }))
+
+{
+    @Html.AntiForgeryToken()
+    <label for="file">Cargar Archivo:</label>
+    <input type="file" name="file" id="file" /><br><br>
+    <input type="submit" value="Cargar Archivo" />
+    <br><br>
+    @ViewBag.Message
+}
