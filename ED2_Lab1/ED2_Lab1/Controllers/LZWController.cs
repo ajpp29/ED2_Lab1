@@ -70,6 +70,7 @@ namespace ED2_Lab1.Controllers
         {
             byte[] filedata = System.IO.File.ReadAllBytes(db.ObtenerArchivo().FullName);
             List<int> compreso = algoritmo.Compresion(System.Text.Encoding.UTF8.GetString(filedata, 0, filedata.Length));
+            //List<int> compreso = algoritmo.Compressor(System.Text.Encoding.UTF8.GetString(filedata, 0, filedata.Length));
 
             List<char> bytecompress = new List<char>();
 
@@ -130,14 +131,30 @@ namespace ED2_Lab1.Controllers
 
         public void GenerarArchivoDescomprimido()
         {
-            byte[] filedata = System.IO.File.ReadAllBytes(db.ObtenerArchivo().FullName);
-
+            const int bufferLength = 100;
             List<int> bytedecompress = new List<int>();
 
-            foreach (byte bite in filedata)
+            var buffer = new char[bufferLength];
+            using (var file = new FileStream(db.ObtenerArchivo().FullName, FileMode.Open))
             {
-                bytedecompress.Add((int)Convert.ToChar(bite));
+                using (var reader = new BinaryReader(file))
+                {
+                    while (reader.BaseStream.Position != reader.BaseStream.Length)
+                    {
+                        buffer = reader.ReadChars(bufferLength);
+                        foreach (var item in buffer)
+                        {
+                            //Console.Write((char)item);
+                            bytedecompress.Add((int)Convert.ToChar(item));
+                        }
+
+                        //Console.ReadKey();
+                    }
+
+                }
+
             }
+
 
             StringBuilder builder = new StringBuilder(algoritmo.Descompresion(bytedecompress));
 
@@ -154,24 +171,6 @@ namespace ED2_Lab1.Controllers
         //METODO PARA DESCARGAR EL ARCHIVO
         public ActionResult DownloadFile()
         {
-            //FileInfo fileInfo = default(FileInfo);
-            //fileInfo = db.ObtenerArchivo();
-            //var ruta = Server.MapPath("~/UploadedFiles/") + fileInfo.Name;
-            //string filename = fileInfo.Name + ".lzw";
-            ////string filepath = AppDomain.CurrentDomain.BaseDirectory + filename;
-            //string filepath = fileInfo.FullName;
-            //byte[] filedata = System.IO.File.ReadAllBytes(filepath);
-            //string contentType = MimeMapping.GetMimeMapping(filepath);
-
-            //var cd = new System.Net.Mime.ContentDisposition
-            //{
-            //    FileName = filename,
-            //    Inline = true,
-            //};
-
-            //Response.Headers.Add("Content-Disposition", cd.ToString());
-
-            //return File(filedata, contentType, filename);
             return View();
         }
 

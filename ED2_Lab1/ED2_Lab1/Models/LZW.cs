@@ -11,31 +11,50 @@ namespace ED2_Lab1.Models
         public  List<int> Compresion(string Descomprimido)
         {
             // Crando Diccionario
-            Dictionary<string, int> Diccionario = new Dictionary<string, int>();
+            List<int> indices = new List<int>();
+            Dictionary<int, string> dictionary = new Dictionary<int, string>();
+
             for (int i = 0; i < 256; i++)
-                Diccionario.Add(((char)i).ToString(), i);
+                dictionary.Add(i, new string((char)i, 1));
 
-            string w = string.Empty;
-            List<int> ArchivoComp = new List<int>();
+            char c = '\0';
+            int index = 1, n = Descomprimido.Length, nextKey = 256;
+            string s = new string(Descomprimido[0], 1), sc = string.Empty;
 
-            foreach (char c in Descomprimido)
+            while (index < n)
             {
-                string wc = w + c;
-                if (Diccionario.ContainsKey(wc))
-                {
-                    w = wc;
-                }
+                c = Descomprimido[index++];
+                sc = s + c;
+
+                if (dictionary.ContainsValue(sc))
+                    s = sc;
+
                 else
                 {
-                    ArchivoComp.Add(Diccionario[w]);
-                    Diccionario.Add(wc, Diccionario.Count);
-                    w = c.ToString();
+                    foreach (KeyValuePair<int, string> kvp in dictionary)
+                    {
+                        if (kvp.Value == s)
+                        {
+                            indices.Add(kvp.Key);
+                            break;
+                        }
+                    }
+
+                    dictionary.Add(nextKey++, sc);
+                    s = new string(c, 1);
                 }
             }
-            if (!string.IsNullOrEmpty(w))
-                ArchivoComp.Add(Diccionario[w]);
 
-            return ArchivoComp;
+            foreach (KeyValuePair<int, string> kvp in dictionary)
+            {
+                if (kvp.Value == s)
+                {
+                    indices.Add(kvp.Key);
+                    break;
+                }
+            }
+
+            return indices;
         }
 
         public string Descompresion(List<int> Comprimido)
@@ -66,5 +85,6 @@ namespace ED2_Lab1.Models
 
             return Descomprimido.ToString();
         }
+
     }
 }
