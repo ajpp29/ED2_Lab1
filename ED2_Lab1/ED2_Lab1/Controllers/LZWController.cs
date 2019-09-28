@@ -68,9 +68,32 @@ namespace ED2_Lab1.Controllers
 
         public void GenerarArhivoComprimido()
         {
+            const int bufferLength = 100;
+            List<int> bytedecompress = new List<int>();
+            StringBuilder builder = new StringBuilder();
+
+            var buffer = new byte[bufferLength];
+            using (var file = new FileStream(db.ObtenerArchivo().FullName, FileMode.Open))
+            {
+                using (var reader = new BinaryReader(file))
+                {
+                    while (reader.BaseStream.Position != reader.BaseStream.Length)
+                    {
+                        buffer = reader.ReadBytes(bufferLength);
+                        foreach (var item in buffer)
+                        {
+                            builder.Append(((char)item).ToString());
+                        }
+
+                        //Console.ReadKey();
+                    }
+
+                }
+
+            }
+
             byte[] filedata = System.IO.File.ReadAllBytes(db.ObtenerArchivo().FullName);
-            List<int> compreso = algoritmo.Compresion(System.Text.Encoding.UTF8.GetString(filedata, 0, filedata.Length));
-            //List<int> compreso = algoritmo.Compressor(System.Text.Encoding.UTF8.GetString(filedata, 0, filedata.Length));
+            List<int> compreso = algoritmo.Compresion(builder.ToString());
 
             List<char> bytecompress = new List<char>();
 
