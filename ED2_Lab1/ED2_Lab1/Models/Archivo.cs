@@ -9,17 +9,17 @@ namespace ED2_Lab1.Models
     {
         public DateTime fechaCompresion;
         public string nombreArchivo;
-        public int razon_compresion;
-        public int factor_compresion;
-        public int porcentaje_reduccion;
+        public double razon_compresion;
+        public double factor_compresion;
+        public double porcentaje_reduccion;
 
         public Archivo()
         {
             fechaCompresion = new DateTime();
             nombreArchivo = default(string);
-            razon_compresion = default(int);
-            factor_compresion = default(int);
-            porcentaje_reduccion = default(int);
+            razon_compresion = default(double);
+            factor_compresion = default(double);
+            porcentaje_reduccion = default(double);
 
         }
 

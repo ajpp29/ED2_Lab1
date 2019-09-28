@@ -31,6 +31,11 @@ namespace ED2_Lab1.DBContext
             return historialCompresiones;
         }
 
+        public void GuardarHistorial(List<Models.Archivo> archivos)
+        {
+            historialCompresiones = archivos;
+        }
+
         public FileInfo ObtenerArchivo()
         {
             return fileInfo;

@@ -8,6 +8,7 @@ using System.IO;
 using ED2_Lab1.Models;
 using ED2_Lab1.DBContext;
 using System.Text;
+using ED2_Lab1.Compresion;
 
 namespace ED2_Lab1.Controllers
 {
@@ -15,12 +16,13 @@ namespace ED2_Lab1.Controllers
     {
         public DefaultConnectionLZW db = DefaultConnectionLZW.getInstance;
         LZW algoritmo = new LZW();
+        static LogFile log = new LogFile();
 
         //HOME DE LZW
         public ActionResult Index()
         {
-            List<int> compreso = algoritmo.Compresion("HOLACOMOESTASMAJE");
-            string descompreso = algoritmo.Descompresion(compreso);
+            //List<int> compreso = algoritmo.Compresion("HOLACOMOESTASMAJE");
+            //string descompreso = algoritmo.Descompresion(compreso);
             return View(db.ObtenerHistorial());
         }
 
@@ -53,6 +55,10 @@ namespace ED2_Lab1.Controllers
                 GenerarArhivoComprimido();
                 //db.GuardarArchivo(fileInfo);
                 //DownloadFile(fileInfo);
+
+                
+                log.GenerarLog(nombre_original, tamanio_original, db.ObtenerArchivo().Length);
+                db.GuardarHistorial(log.ListaHistorial);
 
                 return RedirectToAction("DownloadFile");
             }

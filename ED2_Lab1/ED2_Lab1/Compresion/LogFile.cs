@@ -18,25 +18,34 @@ namespace ED2_Lab1.Compresion
 
         public void GenerarLog(string nombre_original,long tamanio_original, long tamanio_compreso)
         {
-            int razon_compresion = default(int);
-            int factor_compresion = default(int);
-            int porcentaje_reduccion = default(int);
-            DateTime dateTime = DateTime.Today;
+            double razon_compresion = default(int);
+            double factor_compresion = default(int);
+            double porcentaje_reduccion = default(int);
+            DateTime dateTime = DateTime.Now;
 
-            long tamanio_aux = tamanio_compreso / tamanio_original;
-            long reduccion_aux = (Math.Abs(tamanio_original - tamanio_compreso) / tamanio_original);
+            double tamanio_aux = (double)tamanio_compreso / (double)tamanio_original;
+            double reduccion_aux = ((double)Math.Abs(tamanio_original - tamanio_compreso) / (double)tamanio_original);
 
-            razon_compresion = unchecked((int)tamanio_aux);
+            razon_compresion = tamanio_aux;
             factor_compresion = 1 / razon_compresion;
-            porcentaje_reduccion = unchecked((int)reduccion_aux);
+            porcentaje_reduccion = reduccion_aux;
 
             string filepath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             filepath = filepath + @"\Log.txt";
+
+            Archivo archivo = new Archivo();
+            archivo.fechaCompresion = dateTime;
+            archivo.nombreArchivo = nombre_original;
+            archivo.razon_compresion = razon_compresion;
+            archivo.factor_compresion = factor_compresion;
+            archivo.porcentaje_reduccion = porcentaje_reduccion;
 
             StreamWriter escribir = File.AppendText(filepath);
             escribir.WriteLine("Fecha Compresion," + dateTime.ToString("dd/MM/yyyy HH:mm:ss") + ";Nombre," + nombre_original + ";Razon," + razon_compresion + ";Factor," + factor_compresion + ";Porcentaje de reduccion," + porcentaje_reduccion);
             escribir.Close();
 
+            ListaHistorial.Add(archivo);
+            
         }
 
         public List<Archivo> ObtenerHistorial()
@@ -57,9 +66,9 @@ namespace ED2_Lab1.Compresion
                 splitCadena = cadena.Split(';');
                 aAux.fechaCompresion = DateTime.ParseExact(splitCadena[0].Split(',')[1].Trim(), "dd/MM/yyyy HH:mm:ss", null);
                 aAux.nombreArchivo = splitCadena[1].Split(',')[1].Trim();
-                aAux.razon_compresion = int.Parse(splitCadena[2].Split(',')[1].Trim());
-                aAux.factor_compresion = int.Parse(splitCadena[3].Split(',')[1].Trim());
-                aAux.porcentaje_reduccion = int.Parse(splitCadena[4].Split(',')[1].Trim());
+                aAux.razon_compresion = double.Parse(splitCadena[2].Split(',')[1].Trim());
+                aAux.factor_compresion = double.Parse(splitCadena[3].Split(',')[1].Trim());
+                aAux.porcentaje_reduccion = double.Parse(splitCadena[4].Split(',')[1].Trim());
 
                 ListaHistorial.Add(aAux);
 
